@@ -7,22 +7,5 @@
                              http://www.springframework.org/schema/context
                              http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-    <context:property-placeholder location="classpath:application.properties"/>
-
-    <bean id="connectionManager" name= "connectionManager" class="org.example.utils.ConnectionManager">
-        <constructor-arg name="url" value="${db.url}"/>
-        <constructor-arg name="username" value="${db.username}"/>
-        <constructor-arg name="password" value="${db.password}"/>
-    </bean>
-
-    <bean name="userDao" class="org.example.dao.UserDao">
-        <constructor-arg name="companyDao" ref="companyDao"/>
-        <constructor-arg name="connection" value="#{connectionManager.open()}"/>
-    </bean>
-
-    <bean name="companyDao" class="org.example.dao.CompanyDao">
-        <constructor-arg name="connection" value="#{connectionManager.open()}"/>
-    </bean>
-
 
 </beans>
