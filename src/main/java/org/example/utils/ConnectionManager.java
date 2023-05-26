@@ -1,19 +1,25 @@
 package org.example.utils;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
-@RequiredArgsConstructor
+@Component
 public class ConnectionManager {
     private final String url;
     private final String username;
     private final String password;
+
+    public ConnectionManager(@Value("${db.url}") String url,
+                             @Value("${db.username}") String username,
+                             @Value("${db.password}") String password) {
+        this.url = url;
+        this.username = username;
+        this.password = password;
+    }
 
     public Connection open() {
         try {

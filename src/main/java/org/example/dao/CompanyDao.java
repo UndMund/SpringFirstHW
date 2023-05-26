@@ -4,15 +4,22 @@ import lombok.AllArgsConstructor;
 import lombok.ToString;
 import org.example.entity.Company;
 import org.example.entity.User;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
-@AllArgsConstructor
 @ToString
+@Repository
 public class CompanyDao {
     private Connection connection;
+
+    public CompanyDao(@Value("#{connectionManager.open()}") Connection connection) {
+        this.connection = connection;
+    }
+
     private static String FIND_BY_ID_SQL = """
             SELECT id,
                 company_name

@@ -3,14 +3,16 @@ package org.example.dao;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 import org.example.entity.User;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-@AllArgsConstructor
 @ToString
+@Repository
 public class UserDao {
     private Connection connection;
     private final CompanyDao companyDao;
@@ -21,6 +23,12 @@ public class UserDao {
             FROM users
             WHERE id = ?
             """;
+
+    public UserDao(@Value("#{connectionManager.open()}") Connection connection,
+                    CompanyDao companyDao) {
+        this.connection = connection;
+        this.companyDao = companyDao;
+    }
 
 
     public Optional<User> findById(Long id) {
